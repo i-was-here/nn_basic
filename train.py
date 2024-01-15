@@ -1,15 +1,9 @@
 from nn import MLP
 from optimizers import SGD, GD, MBGD
+from losses import mse_loss
 from grad_engine import draw_dot
 import random
 random.seed(42)
-
-
-def loss(y_pred, y_true):
-    """
-    MSE Loss
-    """
-    return sum([(tru-prd)**2 for tru, prd in zip(y_true, y_pred)])
 
 
 if __name__=="__main__":
@@ -38,7 +32,7 @@ if __name__=="__main__":
 
         # forward pass / inference
         y_pred = [model(inp) for inp in x]
-        loss_val = loss(y_pred, y_true)
+        loss_val = mse_loss(y_pred, y_true)
         print(epoch+1, loss_val.value)
 
         # zero grad
