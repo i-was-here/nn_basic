@@ -51,4 +51,4 @@ if __name__=="__main__":
     L = model(sample_inp)
 
     graph = draw_dot(L)
-    graph.render("nn", format="png", cleanup=True)
+    graph.render("./images/nn", format="png", cleanup=True)
