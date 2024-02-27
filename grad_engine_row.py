@@ -39,6 +39,7 @@ class Vector():
         assert isinstance(value, np.ndarray), "The value of vector can only be of type numpy.ndarray !"
         assert len(value.shape)==1, "Only 1-D row vectors allowed !"
 
+        if(value.dtype!=np.float32): value = value.astype(np.float32)
         self.value = value
         self.operator = operator
         self.children = children
@@ -163,6 +164,28 @@ class Vector():
 
         return out
     
+    def tanh(self):
+        out = Vector(np.tanh(self.value), 'tanh', (self,))
+
+        def _backward():
+            self.grad += out.grad*(1-(out.value*out.value))
+        out._backward = _backward
+
+        return out
+    
+    def ReLU(self):
+        vec = np.copy(self.value)
+        vec[vec<0] = 0.0
+        out = Vector(vec, 'ReLU', (self,))
+
+        def _backward():
+            derivative = np.ones_like(self.value)
+            derivative[self.value<0]=0
+            self.grad += out.grad*derivative
+        out._backward = _backward
+
+        return out
+    
     def backward(self):
         topo = []
         visited = set()
@@ -179,6 +202,25 @@ class Vector():
             node._backward()
 
 
+def Vec_hstack(vectors: list):
+    """
+    -> Operation on a list of vector. To stack them all horizontally.
+    -> Intended use: when all outputs from the neurons are to be combined into a single output vector,
+                    this can be used to combine them. It will take care of the backward gradient's flow.
+    params:
+    `vectors` : List of Vector objects
+    """
+    children = tuple(vectors)
+    out = Vector(np.hstack([vec.value for vec in vectors]))
+    out.operator = 'hstack'
+    out.children = children
+    
+    def _backward():
+        for child_ind in range(len(children)):
+            children[child_ind].grad = out.grad[child_ind:child_ind+1]
+    out._backward = _backward
+
+    return out
 
 if __name__=='__main__':
 
