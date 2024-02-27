@@ -23,9 +23,9 @@ if __name__=="__main__":
     
     # model initialization
     model = MLP(3, [4, 4, 1])
-    optim_gd = GD(model.parameters(), lr)
-    optim_mbgd = MBGD(model.parameters(), lr, gamma=0.9)
-    optim = SGD(model.parameters(), lr, 0.9, nestrov=True)
+    optim = GD(model.parameters(), lr)
+    # optim_mbgd = MBGD(model.parameters(), lr, gamma=0.9)
+    # optim = SGD(model.parameters(), lr, 0.9, nestrov=True)
 
     # training loop
     for epoch in range(epochs):

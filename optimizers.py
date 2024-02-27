@@ -63,6 +63,7 @@ class SGD(optimizer):
         self.dampening = dampening
         self.weight_decay = weight_decay
         self.nestrov = nestrov
+        self.t=0
 
     def step(self):
         for param in self.parameters:
@@ -83,3 +84,4 @@ class SGD(optimizer):
                 param.value += self.lr*update
             else:
                 param.value -= self.lr*update
+        self.t += 1
