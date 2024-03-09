@@ -5,12 +5,12 @@
 ### Features
 - Implemented reverse mode Automatic Differentiation form scratch
 - Implemented various optimizers like Momentum based Nesterov Accelerated Gradient Descent
+- Optimized the framework by adding in the support for vectors as the atomic unit of parameters.
 
 ### Future works
 - Incorporating various other Layers like Convolution, BatchNorm, Attention, etc.
 - Introduce other state-of-the-art optimizers like Adam, Adagrad.
 - Introduce other loss functions like binary cross-entropy.
-- Optimizing the framework by adding in the support for vectors as the atomic unit of parameters.
 
 ### Sample Training
 ```python
