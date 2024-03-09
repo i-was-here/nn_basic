@@ -1,12 +1,12 @@
-from grad_engine_row import Vector, Vec_hstack, trace, draw_dot
+from grad.col.engine import Vector, Vec_vstack, trace, draw_dot
 import numpy as np
 
 np.random.seed(42)
 
 class Neuron():
     def __init__(self, num_inp):
-        self.w = Vector(np.random.random((num_inp)))
-        self.b = Vector(np.random.random((1)))
+        self.w = Vector(np.random.random((num_inp, 1)))
+        self.b = Vector(np.random.random((1, 1)))
     
     def __call__(self, x: np.ndarray) -> Vector:
         assert len(x.value) == len(self.w.value), "Input is NOT of the correct size ! Incompatible w/ weights"
@@ -22,7 +22,7 @@ class LinearLayer():
         self.neurons = [Neuron(num_inp) for _ in range(num_out)]
     
     def __call__(self, x):
-        outs = Vec_hstack([neuron(x) for neuron in self.neurons])
+        outs = Vec_vstack([neuron(x) for neuron in self.neurons])
         return outs
     
     def parameters(self):
@@ -50,7 +50,7 @@ if __name__=="__main__":
 
     model = MLP(input_size, layers_config)
 
-    sample_inp = Vector(np.array([2.0, 3.0, -1.0]))
+    sample_inp = Vector(np.array([[2.0], [3.0], [-1.0]]))
     L = model(sample_inp)
     L.backward()
     graph = draw_dot(L)

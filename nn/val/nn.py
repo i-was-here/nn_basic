@@ -1,5 +1,5 @@
 import random
-from grad_engine import Value, draw_dot
+from grad.val.engine import Value, draw_dot
 
 class Neuron:
     def __init__(self, num_inp) -> None:

@@ -1,5 +1,5 @@
 import math
-from grad_engine import Value
+from grad.val.engine import Value
 import numpy as np
 from graphviz import Digraph
 
@@ -37,15 +37,12 @@ def draw_dot(root, format='svg', rankdir='LR'):
 class Vector():
     def __init__(self, value, operator='', children=(), label=''):
         assert isinstance(value, np.ndarray), "The value of vector can only be of type numpy.ndarray !"
-        assert len(value.shape)==1, "Only 1-D row vectors allowed !"
-
-        if(value.dtype!=np.float32): value = value.astype(np.float32)
         self.value = value
         self.operator = operator
         self.children = children
         self.label = label
         self._backward = lambda: None
-        self.grad = np.zeros_like(value, dtype=np.float32)
+        self.grad = 0
     
     def __str__(self) -> str:
         return "Value: "+np.array2string(self.value, precision=4, separator=', ')
@@ -144,26 +141,28 @@ class Vector():
     def sum(self, dim=None):
         # TODO: consider the dim over which sum needs to be done
         
-        out = Vector(np.array([float(self.value.sum())]), 'sum', (self,))
+        out = Vector(np.array([self.value.sum()]), 'sum', (self,))
 
         def _backward():
-            self.grad += (out.grad*np.ones_like(self.value))
-        out._backward = _backward
+            # assuming out.grad here is scalar value
+            self.grad = out.grad*np.ones_like(self)
+        self._backward = _backward
 
         return out
     
     def dot_product(self, another: 'Vector') -> 'Vector':
         assert isinstance(another, Vector), "Dot Product allowed only b/w 2 vectors ! But got a different types !"
         assert self.shape==another.shape, "Shape mismatch between the input vectors for Dot Product !"
-
-        out = Vector(np.array([np.matmul(self.value, another.value.T)]), 'dot_prod', (self, another))
+        
+        out = Vector(np.matmul(self.value.T, another.value), 'dot_prod', (self, another))
         def _backward():
             self.grad += out.grad*(another.value)
             another.grad += out.grad*(self.value)
-        out._backward = _backward
+        self._backward = _backward
 
         return out
     
+        
     def tanh(self):
         out = Vector(np.tanh(self.value), 'tanh', (self,))
 
@@ -189,7 +188,7 @@ class Vector():
     def backward(self):
         topo = []
         visited = set()
-        def topo_sort(root: 'Vector'):
+        def topo_sort(root: 'Vector') -> list:
             if(root not in visited):
                 visited.add(root)
                 topo.append(root)
@@ -197,12 +196,13 @@ class Vector():
                     topo_sort(child)
         topo_sort(self)
 
-        self.grad = np.ones_like(self.value, dtype=np.float32)
-        for node in topo:
-            node._backward()
+        self.grad = np.array([[1,],])
+        for _node in topo:
+            _node._backward()
 
 
-def Vec_hstack(vectors: list):
+
+def Vec_vstack(vectors: list):
     """
     -> Operation on a list of vector. To stack them all horizontally.
     -> Intended use: when all outputs from the neurons are to be combined into a single output vector,
@@ -211,8 +211,8 @@ def Vec_hstack(vectors: list):
     `vectors` : List of Vector objects
     """
     children = tuple(vectors)
-    out = Vector(np.hstack([vec.value for vec in vectors]))
-    out.operator = 'hstack'
+    out = Vector(np.vstack([vec.value for vec in vectors]))
+    out.operator = 'vstack'
     out.children = children
     
     def _backward():
@@ -222,32 +222,36 @@ def Vec_hstack(vectors: list):
 
     return out
 
+
 if __name__=='__main__':
 
     # inputs
-    x1 = np.array([1, 2, 3, 4, 5], dtype=np.float32)
+    # x1 = Value(2.0, label='x1')
+    x1 = np.array([[1], [2], [3], [4], [5]])
     x1 = Vector(x1, label='x1')
-    x2 = np.array([1, 2, 3, 4, 5], dtype=np.float32)
+    x2 = np.array([[1], [2], [3], [4], [5]])
     x2 = Vector(x2, label='x2')
 
     # weights & biases
-    w1 = Vector(np.array([6, 7, 8, 9, 10], dtype=np.float32), label='w1')
-    w2 = Vector(np.array([6, 7, 8, 9, 10], dtype=np.float32), label='w2')
-    b  = Vector(np.array([2], dtype=np.float32), label='b')
+    w1 = Vector(np.array([[6], [7], [8], [9], [10]]), label='w1')
+    w2 = Vector(np.array([[6], [7], [8], [9], [10]]), label='w2')
+    b  = Vector(np.array([[2]]), label='b')
 
     # apply linear layer
     x1w1 = x1.dot_product(w1); x1w1.label='x1w1'
     x2w2 = x2.dot_product(w2); x2w2.label='x2w2'
+    print(x1w1, x2w2)
     x1w1x2w2 = x1w1 + x2w2; x1w1x2w2.label = 'x1w1 + x2w2'
     n = x1w1x2w2 + b; n.label = 'n'
+    print(n)
 
-    # loss function
-    n_sq = n*n; n_sq.label="n_sq"
-    o = n_sq.sum(); o.label = 'o'
+    # # loss function
+    # o = n.tanh(); o.label = 'o'
+    # o.grad = 1
 
     # backward process
-    o.backward()
+    n.backward()
 
     # graphing out network
-    graph = draw_dot(o)
-    graph.render("./images/grad_engine_row", format="png", cleanup=True)
+    graph = draw_dot(n)
+    graph.render("./images/grad_engine_vector", format="png", cleanup=True)
