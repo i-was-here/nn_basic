@@ -12,6 +12,9 @@
 - Introduce other state-of-the-art optimizers like Adam, Adagrad.
 - Introduce other loss functions like binary cross-entropy.
 
+### Note
+> Use the framework after doing an editable install of the project as : `pip install -e .`
+
 ### Sample Training
 ```python
 from nnet.nn.val.nn import MLP
