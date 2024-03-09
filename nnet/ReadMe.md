@@ -14,9 +14,9 @@
 
 ### Sample Training
 ```python
-from nn import MLP
-from optimizers import SGD
-from losses import mse_loss
+from nnet.nn.val.nn import MLP
+from nnet.optimizers.optimizers import SGD
+from nnet.losses.losses import mse_loss
 import random
 random.seed(42)
 
