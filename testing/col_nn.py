@@ -1,5 +1,6 @@
-from grad.col.engine import Vector, Vec_vstack, trace, draw_dot
-from nn.col.nn import MLP
+from nnet.grad.col.engine import Vector, Vec_vstack
+from nnet.nn.col.nn import MLP
+from nnet.visualize.draw_graph import trace, draw_dot
 import numpy as np
 
 np.random.seed(42)
@@ -15,4 +16,4 @@ if __name__=="__main__":
     L = model(sample_inp)
     L.backward()
     graph = draw_dot(L)
-    graph.render("./visualize/temp", format="png", cleanup=True)
+    graph.render("./visualize/temp1", format="png", cleanup=True)

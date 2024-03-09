@@ -1,38 +1,4 @@
-import math
-from grad.val.engine import Value
 import numpy as np
-from graphviz import Digraph
-
-def trace(root):
-    nodes, edges = set(), set()
-    def build(v):
-        if v not in nodes:
-            nodes.add(v)
-            for child in v.children:
-                edges.add((child, v))
-                build(child)
-    build(root)
-    return nodes, edges
-
-def draw_dot(root, format='svg', rankdir='LR'):
-    """
-    format: png | svg | ...
-    rankdir: TB (top to bottom graph) | LR (left to right)
-    """
-    assert rankdir in ['LR', 'TB']
-    nodes, edges = trace(root)
-    dot = Digraph(format=format, graph_attr={'rankdir': rankdir}) #, node_attr={'rankdir': 'TB'})
-    
-    for n in nodes:
-        dot.node(name=str(id(n)), label = ""+str(n.label)+" | "+str(n.value)+" | "+str(n.grad), shape='record')
-        if n.operator:
-            dot.node(name=str(id(n)) + n.operator, label=n.operator)
-            dot.edge(str(id(n)) + n.operator, str(id(n)))
-    
-    for n1, n2 in edges:
-        dot.edge(str(id(n1)), str(id(n2)) + n2.operator)
-    
-    return dot
 
 class Vector():
     def __init__(self, value, operator='', children=(), label=''):
@@ -223,31 +189,32 @@ def Vec_hstack(vectors: list):
     return out
 
 if __name__=='__main__':
+    pass
 
-    # inputs
-    x1 = np.array([1, 2, 3, 4, 5], dtype=np.float32)
-    x1 = Vector(x1, label='x1')
-    x2 = np.array([1, 2, 3, 4, 5], dtype=np.float32)
-    x2 = Vector(x2, label='x2')
+    # # inputs
+    # x1 = np.array([1, 2, 3, 4, 5], dtype=np.float32)
+    # x1 = Vector(x1, label='x1')
+    # x2 = np.array([1, 2, 3, 4, 5], dtype=np.float32)
+    # x2 = Vector(x2, label='x2')
 
-    # weights & biases
-    w1 = Vector(np.array([6, 7, 8, 9, 10], dtype=np.float32), label='w1')
-    w2 = Vector(np.array([6, 7, 8, 9, 10], dtype=np.float32), label='w2')
-    b  = Vector(np.array([2], dtype=np.float32), label='b')
+    # # weights & biases
+    # w1 = Vector(np.array([6, 7, 8, 9, 10], dtype=np.float32), label='w1')
+    # w2 = Vector(np.array([6, 7, 8, 9, 10], dtype=np.float32), label='w2')
+    # b  = Vector(np.array([2], dtype=np.float32), label='b')
 
-    # apply linear layer
-    x1w1 = x1.dot_product(w1); x1w1.label='x1w1'
-    x2w2 = x2.dot_product(w2); x2w2.label='x2w2'
-    x1w1x2w2 = x1w1 + x2w2; x1w1x2w2.label = 'x1w1 + x2w2'
-    n = x1w1x2w2 + b; n.label = 'n'
+    # # apply linear layer
+    # x1w1 = x1.dot_product(w1); x1w1.label='x1w1'
+    # x2w2 = x2.dot_product(w2); x2w2.label='x2w2'
+    # x1w1x2w2 = x1w1 + x2w2; x1w1x2w2.label = 'x1w1 + x2w2'
+    # n = x1w1x2w2 + b; n.label = 'n'
 
-    # loss function
-    n_sq = n*n; n_sq.label="n_sq"
-    o = n_sq.sum(); o.label = 'o'
+    # # loss function
+    # n_sq = n*n; n_sq.label="n_sq"
+    # o = n_sq.sum(); o.label = 'o'
 
-    # backward process
-    o.backward()
+    # # backward process
+    # o.backward()
 
-    # graphing out network
-    graph = draw_dot(o)
-    graph.render("./images/grad_engine_row", format="png", cleanup=True)
+    # # graphing out network
+    # graph = draw_dot(o)
+    # graph.render("./images/grad_engine_row", format="png", cleanup=True)

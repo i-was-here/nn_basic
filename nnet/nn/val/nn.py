@@ -1,5 +1,5 @@
 import random
-from grad.val.engine import Value, draw_dot
+from ...grad.val.engine import Value
 
 class Neuron:
     def __init__(self, num_inp) -> None:
@@ -41,14 +41,15 @@ class MLP:
 
 
 if __name__=="__main__":
+    pass
     
-    input_size = 3
-    layers_config = [4, 4, 1]
+    # input_size = 3
+    # layers_config = [4, 4, 1]
 
-    model = MLP(input_size, layers_config)
+    # model = MLP(input_size, layers_config)
 
-    sample_inp = [2.0, 3.0, -1.0]
-    L = model(sample_inp)
+    # sample_inp = [2.0, 3.0, -1.0]
+    # L = model(sample_inp)
 
-    graph = draw_dot(L)
-    graph.render("./images/nn", format="png", cleanup=True)
+    # graph = draw_dot(L)
+    # graph.render("./images/nn", format="png", cleanup=True)
