@@ -1,7 +1,7 @@
 from nn.val.nn import MLP
 from optimizers.optimizers import SGD, GD, MBGD
 from losses.losses import mse_loss
-from grad.val.engine import draw_dot
+from visualize.draw_graph import draw_dot
 import random
 random.seed(42)
 

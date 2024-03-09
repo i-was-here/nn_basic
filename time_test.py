@@ -6,7 +6,8 @@ def row_vector_test(num_exp=100):
     from nn.row.nn import MLP
     from optimizers.optimizers import GD
     from losses.losses_row import mse_loss
-    from grad.row.engine import draw_dot, Vector
+    from grad.row.engine import Vector
+    from visualize.draw_graph import draw_dot
     import numpy as np
     import random
     random.seed(42)
@@ -60,7 +61,8 @@ def col_vector_test(num_exp=100):
     from nn.col.nn import MLP
     from optimizers.optimizers import GD
     from losses.losses_row import mse_loss
-    from grad.col.engine import draw_dot, Vector
+    from grad.col.engine import Vector
+    from visualize.draw_graph import draw_dot
     import numpy as np
     import random
     random.seed(42)
@@ -113,7 +115,7 @@ def value_test(num_exp=100):
     from nn.val.nn import MLP
     from optimizers.optimizers import GD
     from losses.losses import mse_loss
-    from grad.val.engine import draw_dot
+    from visualize.draw_graph import draw_dot
     import random
     random.seed(42)
 

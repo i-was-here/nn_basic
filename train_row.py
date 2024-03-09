@@ -1,7 +1,8 @@
 from nn.row.nn import MLP
 from optimizers.optimizers import GD
 from losses.losses_row import mse_loss
-from grad.row.engine import draw_dot, Vector
+from grad.row.engine import Vector
+from visualize.draw_graph import draw_dot
 import numpy as np
 import random
 random.seed(42)
