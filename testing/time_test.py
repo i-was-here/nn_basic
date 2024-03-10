@@ -1,13 +1,13 @@
 import time
 
-HIDDEN_LAYERS = [6, 6, 1]
+HIDDEN_LAYERS = [12, 12, 1]
 
 def row_vector_test(num_exp=100):
-    from nn.row.nn import MLP
-    from optimizers.optimizers import GD
-    from losses.losses_row import mse_loss
-    from grad.row.engine import Vector
-    from visualize.draw_graph import draw_dot
+    from nnet.nn.row.nn import MLP
+    from nnet.optimizers.optimizers import GD
+    from nnet.losses.losses_row import mse_loss
+    from nnet.grad.row.engine import Vector
+    from nnet.visualize.draw_graph import draw_dot
     import numpy as np
     import random
     random.seed(42)
@@ -58,11 +58,11 @@ def row_vector_test(num_exp=100):
 
 
 def col_vector_test(num_exp=100):
-    from nn.col.nn import MLP
-    from optimizers.optimizers import GD
-    from losses.losses_row import mse_loss
-    from grad.col.engine import Vector
-    from visualize.draw_graph import draw_dot
+    from nnet.nn.col.nn import MLP
+    from nnet.optimizers.optimizers import GD
+    from nnet.losses.losses_row import mse_loss
+    from nnet.grad.col.engine import Vector
+    from nnet.visualize.draw_graph import draw_dot
     import numpy as np
     import random
     random.seed(42)
@@ -112,10 +112,10 @@ def col_vector_test(num_exp=100):
     print("Average Col Vector way time: ", (stop-start)/num_exp)
 
 def value_test(num_exp=100):
-    from nn.val.nn import MLP
-    from optimizers.optimizers import GD
-    from losses.losses import mse_loss
-    from visualize.draw_graph import draw_dot
+    from nnet.nn.val.nn import MLP
+    from nnet.optimizers.optimizers import GD
+    from nnet.losses.losses import mse_loss
+    from nnet.visualize.draw_graph import draw_dot
     import random
     random.seed(42)
 

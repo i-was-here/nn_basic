@@ -1,8 +1,8 @@
-from nn.row.nn import MLP
-from optimizers.optimizers import GD
-from losses.losses_row import mse_loss
-from grad.row.engine import Vector
-from visualize.draw_graph import draw_dot
+from nnet.nn.row.nn import MLP
+from nnet.optimizers.optimizers import GD
+from nnet.losses.losses_row import mse_loss
+from nnet.grad.row.engine import Vector
+from nnet.visualize.draw_graph import draw_dot
 import numpy as np
 import random
 random.seed(42)

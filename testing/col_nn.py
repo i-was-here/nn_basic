@@ -16,4 +16,4 @@ if __name__=="__main__":
     L = model(sample_inp)
     L.backward()
     graph = draw_dot(L)
-    graph.render("./visualize/temp1", format="png", cleanup=True)
+    graph.render("./testing/images/temp1", format="png", cleanup=True)

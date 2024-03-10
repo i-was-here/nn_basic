@@ -13,4 +13,4 @@ if __name__=="__main__":
     L = model(sample_inp)
     L.backward()
     graph = draw_dot(L)
-    graph.render("./images/nn_test", format="png", cleanup=True)
+    graph.render("./testing/images/nn_test", format="png", cleanup=True)

@@ -1,7 +1,7 @@
-from nn.val.nn import MLP
-from optimizers.optimizers import SGD, GD, MBGD
-from losses.losses import mse_loss
-from visualize.draw_graph import draw_dot
+from nnet.nn.val.nn import MLP
+from nnet.optimizers.optimizers import GD
+from nnet.losses.losses import mse_loss
+from nnet.visualize.draw_graph import draw_dot
 import random
 random.seed(42)
 

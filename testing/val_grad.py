@@ -27,4 +27,4 @@ if __name__=='__main__':
 
     # graphing out network
     graph = draw_dot(o)
-    graph.render("./images/grad_engine", format="png", cleanup=True)
+    graph.render("./testing/images/grad_engine", format="png", cleanup=True)
