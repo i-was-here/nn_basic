@@ -42,17 +42,3 @@ class MLP():
         # SUS
         return [params for layer in self.layers for params in layer.parameters()]
 
-
-if __name__=="__main__":
-    pass
-    
-    # input_size = 3
-    # layers_config = [4, 4, 1]
-
-    # model = MLP(input_size, layers_config)
-
-    # sample_inp = Vector(np.array([2.0, 3.0, -1.0]))
-    # L = model(sample_inp)
-    # L.backward()
-    # graph = draw_dot(L)
-    # graph.render("./images/nn_test", format="png", cleanup=True)
