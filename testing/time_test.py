@@ -74,11 +74,11 @@ def col_vector_test(num_exp=100):
     # data initialization
     x = [
         Vector(np.array([[3.0], [4.0], [5.0],])),
-        # Vector(np.array([[-5.0], [-2.0], [8.0]])),
-        # Vector(np.array([[-2.0], [2.5], [-4.5]])),
-        # Vector(np.array([[2.0], [-1.5], [-4.0]]))
+        Vector(np.array([[-5.0], [-2.0], [8.0]])),
+        Vector(np.array([[-2.0], [2.5], [-4.5]])),
+        Vector(np.array([[2.0], [-1.5], [-4.0]]))
     ]
-    y_true = [Vector(np.array([[1]]))]#, Vector(np.array([[-1]])), Vector(np.array([[-1]])), Vector(np.array([[1]]))]
+    y_true = [Vector(np.array([[1]])), Vector(np.array([[-1]])), Vector(np.array([[-1]])), Vector(np.array([[1]]))]
     
     start = time.perf_counter()
     for experiment in range(num_exp):

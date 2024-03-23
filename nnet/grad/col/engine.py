@@ -112,7 +112,7 @@ class Vector():
         def _backward():
             # assuming out.grad here is scalar value
             self.grad = out.grad*np.ones_like(self)
-        self._backward = _backward
+        out._backward = _backward
 
         return out
     
@@ -124,7 +124,7 @@ class Vector():
         def _backward():
             self.grad += out.grad*(another.value)
             another.grad += out.grad*(self.value)
-        self._backward = _backward
+        out._backward = _backward
 
         return out
     
@@ -162,7 +162,7 @@ class Vector():
                     topo_sort(child)
         topo_sort(self)
 
-        self.grad = np.array([[1,],])
+        self.grad = np.ones_like(self.value, dtype=np.float32)
         for _node in topo:
             _node._backward()
 
@@ -170,7 +170,7 @@ class Vector():
 
 def Vec_vstack(vectors: list):
     """
-    -> Operation on a list of vector. To stack them all horizontally.
+    -> Operation on a list of vector. To stack them all vertically.
     -> Intended use: when all outputs from the neurons are to be combined into a single output vector,
                     this can be used to combine them. It will take care of the backward gradient's flow.
     params:
